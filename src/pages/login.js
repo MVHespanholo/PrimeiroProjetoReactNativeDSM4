@@ -31,8 +31,11 @@ const Login = () => {
                 value={password}    
                 onChangeText={setPassword}
             />
-            <TouchableOpacity style={styles.button} onPress={handleLogin} >
-                <Text style={ styles.buttonText }>Entrar</Text>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Entrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, { marginTop: 20 }]} onPress={() => navigation.navigate('register')}>
+                <Text style={styles.buttonText}>Cadastrar Usuário</Text>
             </TouchableOpacity>
         </View>
     )

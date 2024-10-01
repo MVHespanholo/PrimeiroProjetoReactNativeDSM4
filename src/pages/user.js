@@ -1,59 +1,17 @@
-import React, {Component} from 'react';
-import api from '../services/api';
-import {
-  Container,
-  Header,
-  Avatarperfil,
-  Nameperfil,
-  Bioperfil,
-  Starred,
-  Stars,
-  OwnerAvatar,
-  Info,
-  Title,
-  Author,
-} from './styles';
+import React, { Component } from 'react';
+import { View, Text, Image } from 'react-native';
 
 export default class User extends Component {
-  state = {
-    stars: [],
-  };
-
-  async componentDidMount() {
-    const {route} = this.props;
-    const {user} = route.params;
-    const response = await api.get(`/users/${user.login}/starred`);
-
-    this.setState({stars: response.data});
-  }
-
   render() {
-    const {route} = this.props;
-    const {user} = route.params;
-    const {stars} = this.state;
-
+    const { character } = this.props.route.params;
     return (
-      <Container>
-        <Header>
-          <Avatarperfil source={{uri: user.avatar}} />
-          <Nameperfil>{user.name}</Nameperfil>
-          <Bioperfil>{user.bio}</Bioperfil>
-        </Header>
-
-        <Stars
-          data={stars}
-          keyExtractor={star => String(star.id)}
-          renderItem={({item}) => (
-            <Starred>
-              <OwnerAvatar source={{uri: item.owner.avatar_url}} />
-              <Info>
-                <Title>{item.name}</Title>
-                <Author>{item.owner.login}</Author>
-              </Info>
-            </Starred>
-          )}
-        />
-      </Container>
+      <View>
+        <Image source={{ uri: character.image }} />
+        <Text>{character.name}</Text>
+        <Text>Status: {character.status}</Text>
+        <Text>Última localização conhecida: {character.location.name}</Text>
+        <Text>Episódio que ele aparece pela primeira vez: {character.episode[0]}</Text>
+      </View>
     );
   }
 }
