@@ -7,7 +7,7 @@ const Register = () => {
   const [phone, setPhone] = useState('');
   const [cpf, setCpf] = useState('');
   const [email, setEmail] = useState('');
-  const [course, setCurso] = useState('');
+  const [curso, setCurso] = useState('');
 
   const navigation = useNavigation();
 
@@ -45,7 +45,7 @@ const Register = () => {
       <TextInput
         style={styles.input}
         placeholder="Curso"
-        value={course}
+        value={curso}
         onChangeText={setCurso}
       />
       <TouchableOpacity style={styles.button} onPress={handleRegister}>

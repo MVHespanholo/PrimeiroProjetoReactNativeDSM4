@@ -48,16 +48,14 @@ export default class Main extends Component {
 
       let response;
 
-      // Verificando se o usuário está buscando por ID ou Nome
       if (!isNaN(searchQuery)) {
         response = await api.get(`/character/${searchQuery}`);
       } else {
         response = await api.get(`/character/?name=${searchQuery}`);
       }
 
-      const results = response.data.results || [response.data]; // Se for pelo nome, pode ter mais de 1 resultado
+      const results = response.data.results || [response.data]; 
 
-      // Verifica se o personagem já foi adicionado
       const newCharacters = results.filter(character => !characters.find(c => c.id === character.id));
 
       if (newCharacters.length === 0) {
@@ -70,10 +68,15 @@ export default class Main extends Component {
         id: character.id,
         name: character.name,
         status: character.status,
-        location: character.location.name,
-        episode: character.episode[0], // Pegando o primeiro episódio
+        location: character.location?.name || ' desconhecida',
+        episode: character.episode[0] || [],
         image: character.image,
+        species: character.species,
+        gender: character.gender,
+        origin: character.origin?.name || 'desconhecida',
+        type: character.type || 'desconhecido'
       }));
+      
 
       this.setState({
         characters: [...characters, ...formattedCharacters],
@@ -116,17 +119,17 @@ export default class Main extends Component {
         <List
           showsVerticalScrollIndicator={false}
           data={characters}
-          keyExtractor={character => character.id.toString()} // Usando o ID como chave
+          keyExtractor={character => character.id.toString()}
           renderItem={({item}) => (
             <User>
               <Avatar source={{uri: item.image}} />
               <Name>{item.name}</Name>
               <Bio>Status: {item.status}</Bio>
-              <Bio>Última localização: {item.location}</Bio>
-              <Bio>Primeiro episódio: {item.episode}</Bio>
+              <Bio>Última localização conhecida: {item.location}</Bio>
+              <Bio>Visto pela primeira vez: ep {item.episode[0].split('/').pop()}</Bio>
 
               <ProfileButton onPress={() => {
-                this.props.navigation.navigate('characterDetails', {character: item});
+                this.props.navigation.navigate('CharacterDetails', {character: item});
               }}>
                 <ProfileButtonText>Ver Mais Detalhes</ProfileButtonText>
               </ProfileButton>

@@ -4,8 +4,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Main from './pages/main';
 import Login from './pages/login';
-import User from './pages/user';
 import Register from './pages/register';
+import CharacterDetails from './pages/CharacterDetails';
 
 const Stack = createStackNavigator();
 
@@ -59,8 +59,8 @@ export default function Routes() {
           }}
         />
         <Stack.Screen
-          name="user"
-          component={User}
+          name="CharacterDetails"
+          component={CharacterDetails}
           options={{
             title: 'Personagem',
             headerTitleAlign: 'center',
